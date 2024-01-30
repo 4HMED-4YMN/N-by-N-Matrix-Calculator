@@ -1,0 +1,512 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+const int max_col=10;
+
+
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+int det_2 ( int arr [max_col][max_col])
+{
+
+	int res = arr[0][0] * arr[1][1] - arr[1][0] * arr[0][1];
+
+	return res;
+
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+long long det_NxN ( int arr [][max_col], const int size)
+{
+	int c;
+	long long res = 0 ;
+	int temp [10][10];
+	 ///A Base CONDITION :)  Finally
+	if(size==0)
+	{
+		return 1;
+	}
+	if(size==1)
+	{
+		return arr[0][0];
+	}
+	if (size==2)
+	{
+		return det_2(arr);
+	}
+
+		for ( c =0 ; c < size ; c++)
+		{
+			int row1=0,col1=0;
+
+			//create temp_c (sub matrix)
+
+			int ca = c;
+			for ( int rt = 0 ; rt < size-1 ; rt++)
+			{   row1++;
+				col1=0;
+				for ( int ct = 0 ; ct < size-1 ; ct++)
+				{
+					if (col1==ca)
+					{
+						ct--;
+						col1++;
+						continue;
+					}
+					temp[rt][ct]=arr[row1][col1];
+					col1++;
+				}
+			}
+
+
+			if (c%2==0)
+				{
+					res=res+arr[0][c]*det_NxN(temp,size-1);
+				}
+				else
+				{
+					res=res-arr[0][c]*det_NxN(temp,size-1);
+				}
+		}
+
+			return res;
+
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+const int mcols=10; //MAX COLUMN LENGTH
+void mat_multiply(const int a[][mcols],const int b[][mcols],int Brow_Acol,int res_rows,int res_cols)
+{
+    int res [10][10];
+    int r,c;
+    for (r=0 ; r<res_rows ; r++)
+        {
+            for( c=0 ; c<res_cols; c++)
+            {
+                res[r][c]=0; //important
+
+                for(int i=0;i<Brow_Acol;i++)
+                {
+                    res[r][c] =a[r][i]*b[i][c]+res[r][c];
+                }
+
+            }
+
+        }
+    for(int i =0 ;i<res_rows;i++)
+    {
+        for(int j=0;j<res_cols ;j++)
+        {
+        	cout<<res[i][j]<<" ";
+        }
+
+        cout<<"\n";
+    }
+
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+void mat_add_or_sub (const int a[][mcols],const int b[][mcols],int rows,int cols, char op)
+{
+    // matA + matB = matRES
+
+    int res[10][10];
+    int r,c ; //loop counters
+
+
+        //ADDITION
+    if(op=='+')
+    {
+        for (r=0 ; r<rows ; r++)
+        {
+            for( c=0 ; c<cols ; c++)
+                res[r][c]=a[r][c]+b[r][c];
+        }
+    }
+
+        //SUBTRACTION
+    if (op=='-')
+    {
+        for (r=0 ; r<rows ; r++)
+        {
+            for( c=0 ; c<cols ; c++)
+                res[r][c]=a[r][c] - b[r][c];
+        }
+    }
+
+        //PRINTING RESULT
+    for(int i =0 ;i<rows;i++)
+    {
+        for(int j=0;j<cols ;j++)
+            cout<<res[i][j]<<" ";
+
+        cout<<"\n";
+    }
+
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+void cofactors (int arr[][mcols],int size)
+{
+	int temp[mcols][mcols];
+	int cofactor [mcols][mcols];
+	int r,c;
+	/*****************************************************************/
+    // this section creates the sub matrices and gets its determinant
+	for (r=0;r<size;r++)
+	{
+		int ra = r; //actual row
+
+		for ( c =0 ; c < size ; c++)
+		{
+			int row1=0,col1=0;
+
+			//create temp_r_c (sub matrix)
+
+			int ca = c; //actual column
+			for ( int rt = 0 ; rt < size-1 ; rt++)
+			{
+				if(row1==ra)
+				{
+					rt--;
+					row1++;
+					continue;
+				}
+
+
+				col1=0;
+				for ( int ct = 0 ; ct < size-1 ; ct++)
+				{
+					if (col1==ca)
+					{
+						ct--;
+						col1++;
+						continue;
+					}
+					temp[rt][ct]=arr[row1][col1];
+					col1++;
+				}
+				row1++;
+			}
+
+			if (r%2==0)
+			{
+				if (c%2==0)
+				{
+					cofactor[r][c]=det_NxN(temp,size-1);
+				}
+				else
+				{
+					cofactor[r][c]=-1*det_NxN(temp,size-1);
+				}
+			}
+			else
+			{
+				if (c%2==0)
+				{
+					cofactor[r][c]=-1*det_NxN(temp,size-1);
+				}
+				else
+				{
+					cofactor[r][c]=det_NxN(temp,size-1);
+				}
+			}
+		}
+	}
+	/*****************************************************************/
+
+	//storing cofactor matrix in arr
+	for (r=0;r<size;r++)
+	{
+		for(c=0;c<size;c++)
+		{
+			arr[r][c]=cofactor[r][c];
+		}
+	}
+
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+void adjoint (int arr[][mcols],int size)
+{
+	int rev [mcols][mcols];
+
+	int r ,c;
+
+    /****************************/
+	//create  reverse
+	for (r=0;r<size;r++)
+	{
+		for(c=0;c<size;c++)
+		{
+			rev[r][c]=arr[c][r];
+		}
+	}
+
+	/****************************/
+	//reverse arr values
+	for (r=0;r<size;r++)
+	{
+		for(c=0;c<size;c++)
+		{
+			arr[r][c]=rev[r][c];
+		}
+	}
+
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+void mat_div(int matA[][10], int matB[][10],int Brow_Acol,int res_rows,int res_cols)
+{
+	double inverse_mat_B[10][10];
+	long long det_B;
+    //---------------------------------------//
+    // 1) get determinant of matB
+
+	det_B=det_NxN(matB,Brow_Acol);
+
+
+	//---------------------------------------//
+	// 2) get matrix of cofactors
+	cofactors(matB,Brow_Acol);
+
+	//---------------------------------------//
+	// 3) get the adjoint or transpose of cofactors matrix
+	adjoint(matB,Brow_Acol);
+
+	//---------------------------------------//
+	// 4) get the inverse of matB by multiplying the reciprocal of its determinant by every element of the adjoint matrix
+	for(int i =0 ;i<Brow_Acol;i++)
+    {
+        for(int j=0;j<Brow_Acol;j++)
+        	{
+        		inverse_mat_B[i][j]=(1.0/det_B)*matB[i][j];
+        		//1.0/det_B -> (float/int)=float    I added more 1.0s just to make sure :)
+        	}
+    }
+
+    //---------------------------------------//
+    // 5) Multiplying matA with inverse_mat_B
+    double res [10][10];
+    int r,c;
+    for (r=0 ; r<res_rows ; r++)
+        {
+            for( c=0 ; c<res_cols; c++)
+            {
+                res[r][c]=0; //important
+
+                for(int i=0;i<Brow_Acol;i++)
+                {
+                    res[r][c] =matA[r][i]*inverse_mat_B[i][c]+res[r][c];
+                }
+            }
+        }
+
+    //---------------------------------------//
+    // 6) printing the result and rounding the output to the nearest integer
+        //using llround() function in cmath library
+    for(int i =0 ;i<res_rows;i++)
+    {
+        for(int j=0;j<res_cols;j++)
+        {
+            cout<<llround(res[i][j])<<" ";
+        }
+
+        cout<<"\n";
+    }
+
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+//operation type(1: A+B, 2: A-B, 3: AxB, 4: A*inverse(B), 5: |A|, 6: |B|
+
+int main()
+{
+    int matA [10][10];
+    int matB [10][10];
+    int matC [10][10]; //matC is a copy of matB to reset matB values when modified in inverse operation
+
+
+    int Arows,Acols,Brows ,Bcols;
+    cout<<"Please enter dimensions of Matrix A:\n";
+    cin >> Arows >> Acols;
+    cout<<"Please enter dimensions of Matrix B:\n";
+    cin >> Brows >> Bcols;
+
+    //fill matA
+    cout<<"Please enter values of Matrix A:\n";
+    for(int i=0 ; i< Arows ; i++)
+    {
+        for (int j=0 ; j<Acols ; j++)
+            cin>>matA[i][j];
+
+    }
+
+
+    //fill matB
+    cout<<"Please enter values of Matrix B:\n";
+    for(int i=0 ; i< Brows ; i++)
+    {
+        for (int j=0 ; j<Bcols ; j++)
+        {
+           cin>>matB[i][j];
+           //fill matC
+           matC[i][j]=matB[i][j];
+        }
+
+    }
+
+
+   //choosing operation
+    int choice;
+    while(1)
+    {
+        cout<<"Please choose operation type(1: A+B, 2: A-B, 3: AxB, 4: A*inverse(B), 5: |A|, 6: |B|, 7: quit):\n";
+        cin>>choice;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //choice==1 A+B
+        //Using mat_add_or_sub which prints the addition or subtraction of two matrices
+        if(choice==1)
+        {
+            //adding condition
+            if (Arows==Brows && Acols==Bcols)
+            {
+                mat_add_or_sub(matA,matB,Arows,Acols,'+');
+            }
+            else
+            {
+                cout<<"The operation you chose is invalid for the given matrices.\n";
+            }
+        }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //choice==2 A-B
+        //Using mat_add_or_sub which prints the addition or subtraction of two matrices
+        if(choice==2)
+        {
+                    //subtracting condition
+            if (Arows==Brows && Acols==Bcols)
+            {
+                mat_add_or_sub(matA,matB,Arows,Acols,'-');
+            }
+            else
+            {
+                cout<<"The operation you chose is invalid for the given matrices.\n";
+            }
+        }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+         //choice==3 AxB
+         if(choice==3)
+         {
+             //multiplying  2 matrices condition
+             if(Acols==Brows)
+             {
+                 mat_multiply(matA,matB,Brows,Arows,Bcols);
+             }
+             else
+             {
+                 cout<<"The operation you chose is invalid for the given matrices.\n";
+             }
+         }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+         //choice==4 A*inverse(B)
+         if (choice==4)
+         {
+         	//multiplication CONDITON
+         	if (Acols==Brows)
+         	{
+         		//Inverse CONDITION
+         		if ( Bcols==0 || Brows==0 || Arows==0 || Acols==0 )
+         		{
+					cout<<"The operation you chose is invalid for the given matrices.\n";
+         		}
+
+	         	else if ( (Brows==Bcols) && (det_NxN(matC,Bcols)!=0 ))
+	         	{
+	         		mat_div(matA,matB,Brows,Arows,Bcols);   //matB values will be modified to inverse matB
+
+                    /*******************************************************************/
+	         		//return matB to its original values as entered by user using its copy matC
+	         		for(int i=0;i<Brows;i++)
+	         		{
+	         			for(int j= 0;j<Bcols;j++)
+	         			{
+	         				matB[i][j]=matC[i][j];
+	         			}
+	         		}
+                    /*******************************************************************/
+	         	}
+	         	else
+	         	{
+	         		cout<<"The operation you chose is invalid for the given matrices.\n";
+	         	}
+         	}
+        	else
+	         	{
+	         		cout<<"The operation you chose is invalid for the given matrices.\n";
+	         	}
+         }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+         //choice==5 |A|
+         //Using det_NxN function which returns the determinant of a matrix
+        //(this function could be easily modified to take matrices larger than 10x10 and return a double or long long integer)
+         //In this case (long long) just make sure the output does not exceed this range { -2^63 , (2^63)-1 }
+         if(choice==5)
+         {
+
+             if(Acols==Arows)
+             {
+             	cout<<det_NxN(matA,Acols)<<"\n";
+             }
+            else
+            {
+              cout<<"The operation you chose is invalid for the given matrices.\n";
+            }
+        }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //choice==6 |B|
+        //Using det_NxN function which returns the determinant of a matrix
+        //(this function could be easily modified to take matrices larger than 10x10 and return a double or long long integer)
+        //In this case (long long) just make sure the output does not exceed this range { -2^63 , (2^63)-1 }
+         if(choice==6)
+         {
+
+              if(Bcols==Brows)
+             {
+                cout<<det_NxN(matB,Bcols)<<"\n";
+             }
+	         else
+	         {
+	            cout<<"The operation you chose is invalid for the given matrices.\n";
+	         }
+
+         }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //choice==7 quit
+        if(choice==7||cin.fail())
+        {
+           cout<<"Thank you!";
+            return 0;
+            break;
+
+        }
+
+    }
+
+    return 0;
+}
