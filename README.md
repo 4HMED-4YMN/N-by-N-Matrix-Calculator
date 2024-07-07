@@ -4,7 +4,7 @@
 
 | ![](https://github.com/4HMED-4YMN/N-by-N-Matrix-Calculator/blob/main/Pasted%20image%2020240707205929.png?raw=true) | ![](https://github.com/4HMED-4YMN/N-by-N-Matrix-Calculator/blob/main/Pasted%20image%2020240707205940.png?raw=true) |
 | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| ![](https://github.com/4HMED-4YMN/N-by-N-Matrix-Calculator/blob/main/Pasted%20image%2020240707210006.png?raw=true) | ![[Pasted image 20240707210012.png]]<br>![]()                                                                      |
+| ![](https://github.com/4HMED-4YMN/N-by-N-Matrix-Calculator/blob/main/Pasted%20image%2020240707210006.png?raw=true) | ![](https://github.com/4HMED-4YMN/N-by-N-Matrix-Calculator/blob/main/Pasted%20image%2020240707210012.png?raw=true) |
 | ![](https://github.com/4HMED-4YMN/N-by-N-Matrix-Calculator/blob/main/Pasted%20image%2020240707210021.png?raw=true) | ![](https://github.com/4HMED-4YMN/N-by-N-Matrix-Calculator/blob/main/Pasted%20image%2020240707210029.png?raw=true) |
 | ![](https://github.com/4HMED-4YMN/N-by-N-Matrix-Calculator/blob/main/Pasted%20image%2020240707210039.png?raw=true) | ![](https://github.com/4HMED-4YMN/N-by-N-Matrix-Calculator/blob/main/Pasted%20image%2020240707210046.png?raw=true) |
 
